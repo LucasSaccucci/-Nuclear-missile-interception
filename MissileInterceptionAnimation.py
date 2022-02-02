@@ -133,7 +133,7 @@ ax.set_ylabel("y [ ]")
 can1 = FigureCanvasTkAgg(fig, master=win1)  # A tk.DrawingArea.
 
 #pack_toolbar=False will make it easier to use a layout manager later on.
-toolbar = NavigationToolbar2Tk(can1, win1, pack_toolbar=False)
+toolbar = NavigationToolbar2Tk(can1, win1)#, pack_toolbar=False)
 toolbar.update()
 
 # Set the size of the missile
