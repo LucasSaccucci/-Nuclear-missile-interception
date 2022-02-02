@@ -90,6 +90,15 @@ def _set_missile_():
 
 	Missile.set_offsets(np.c_[Spinbox_x0_value,Spinbox_y0_value])
 	can1.draw()
+	
+
+def Kalman(X_Missile, Y_Missile, FX_pred, FY_pred):
+	# X_pred(t) = FX_pred[0]*t**2 + FX_pred[1]*t + FX_pred[2]     form of the prediced function of X
+	# Y_pred(t) = FY_pred[0]*t**2 + FY_pred[1]*t + FY_pred[2]     form of the prediced function of Y
+	New_X = FX_pred[0]*t**2 + FX_pred[1]*t + FX_pred[2]           # new value of X
+	New_Y = FY_pred[0]*t**2 + FY_pred[1]*t + FY_pred[2]
+	
+
 
 
 
