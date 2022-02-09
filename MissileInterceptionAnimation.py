@@ -11,10 +11,14 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
 import numpy as np
+import random
 
 def _measure_position_():
-    """ Measure the position of the track
-    """
+    global Measurement
+    X = random.gauss(X_Missile,standard_deviation)
+    Y = random.gauss(Y_Missile,standard_deviation)
+    Measurement.append([X,Y,t])
+    print(Measurement)
     
 def _launch_missile_():
     """ Launch the counter-measure  
@@ -158,6 +162,13 @@ Missile = ax.scatter( X_Missile , Y_Missile , s = SizeOfMissile, color="red", ma
 
 #Draw you
 ax.add_patch(Rectangle((0.97*Width, 0), 0.03*Width, 0.03*Height,color="skyblue"))
+
+
+#Set off of the Measurement list
+Measurement = []
+
+#Stadard Deviation :
+standard_deviation = 1
 
 #--------------------------------------------------------------------------------
 # Setting up the canvas 
