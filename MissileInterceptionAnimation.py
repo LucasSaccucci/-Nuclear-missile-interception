@@ -21,17 +21,17 @@ def _measure_position_():
 
     # drawing of the measured points :
 
+    # cross of the error bars
+    ax.add_patch(Rectangle((X - 0.0002*Width, Y - standard_deviation), 0.0004*Width, 2*standard_deviation,color="black"))
+    ax.add_patch(Rectangle((X - standard_deviation, Y - 0.0002*Height), 2*standard_deviation, 0.0004*Height,color="black"))
+    # point
+    ax.add_patch(Rectangle((X - 0.005*Width, Y - 0.005*Width), 0.01*Width, 0.01*Height,color="blue"))
     # X-axis error bars
     ax.add_patch(Rectangle((X - 0.0002*Width + standard_deviation, Y - 0.005*Height), 0.0004*Width, 0.01*Height,color="black"))
     ax.add_patch(Rectangle((X - 0.0002*Width - standard_deviation, Y - 0.005*Height), 0.0004*Width, 0.01*Height,color="black"))
     # Y-axis errors bars
     ax.add_patch(Rectangle((X - 0.005*Width, Y - 0.0002*Height  + standard_deviation), 0.01*Width, 0.0004*Height,color="black"))
     ax.add_patch(Rectangle((X - 0.005*Width, Y - 0.0002*Height  - standard_deviation), 0.01*Width, 0.0004*Height,color="black"))
-    # cross of the error bars
-    ax.add_patch(Rectangle((X - 0.0002*Width, Y - standard_deviation), 0.0004*Width, 2*standard_deviation,color="black"))
-    ax.add_patch(Rectangle((X - standard_deviation, Y - 0.0002*Height), 2*standard_deviation, 0.0004*Height,color="black"))
-    # point
-    ax.add_patch(Rectangle((X - 0.005*Width, Y - 0.005*Width), 0.01*Width, 0.01*Height,color="blue"))
 
     print(Measurement)
     
