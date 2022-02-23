@@ -11,10 +11,29 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
 import numpy as np
+import random
 
 def _measure_position_():
-    """ Measure the position of the track
-    """
+    global Measurement
+    X = random.gauss(X_Missile,standard_deviation)
+    Y = random.gauss(Y_Missile,standard_deviation)
+    Measurement.append([X,Y,t])
+
+    # drawing of the measured points :
+
+    # cross of the error bars
+    ax.add_patch(Rectangle((X - 0.0002*Width, Y - standard_deviation), 0.0004*Width, 2*standard_deviation,color="black"))
+    ax.add_patch(Rectangle((X - standard_deviation, Y - 0.0002*Height), 2*standard_deviation, 0.0004*Height,color="black"))
+    # point
+    ax.add_patch(Rectangle((X - 0.005*Width, Y - 0.005*Width), 0.01*Width, 0.01*Height,color="blue"))
+    # X-axis error bars
+    ax.add_patch(Rectangle((X - 0.0002*Width + standard_deviation, Y - 0.005*Height), 0.0004*Width, 0.01*Height,color="black"))
+    ax.add_patch(Rectangle((X - 0.0002*Width - standard_deviation, Y - 0.005*Height), 0.0004*Width, 0.01*Height,color="black"))
+    # Y-axis errors bars
+    ax.add_patch(Rectangle((X - 0.005*Width, Y - 0.0002*Height  + standard_deviation), 0.01*Width, 0.0004*Height,color="black"))
+    ax.add_patch(Rectangle((X - 0.005*Width, Y - 0.0002*Height  - standard_deviation), 0.01*Width, 0.0004*Height,color="black"))
+
+    print(Measurement)
     
 def _launch_missile_():
     """ Launch the counter-measure  
@@ -158,6 +177,13 @@ Missile = ax.scatter( X_Missile , Y_Missile , s = SizeOfMissile, color="red", ma
 
 #Draw you
 ax.add_patch(Rectangle((0.97*Width, 0), 0.03*Width, 0.03*Height,color="skyblue"))
+
+
+#Set off of the Measurement list
+Measurement = []
+
+#Stadard Deviation :
+standard_deviation = 1000
 
 #--------------------------------------------------------------------------------
 # Setting up the canvas 
