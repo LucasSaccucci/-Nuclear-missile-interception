@@ -16,14 +16,19 @@ import random
 import scipy.optimize
 
 def _measure_position_():
+    global t_floor #we compute the time the missile hits the floor
+    t_floor = int((VY0_Missile + np.sqrt(VY0_Missile**2 + 2*g*Y0_Missile)) / g ) + 1
+
     global Measurement
     global X_data
     global Y_data
+    global T_data
     X = random.gauss(X_Missile,standard_deviation)
     Y = random.gauss(Y_Missile,standard_deviation)
     Measurement.append([X,Y,t])
     X_data.append(X)
     Y_data.append(Y)
+    T_data.append(t)
     # drawing of the measured points :
 
     # cross of the error bars
@@ -40,11 +45,14 @@ def _measure_position_():
     
     #print(Measurement)
     if len(X_data) > 3:
-        parameters , covaviance = scipy.optimize.curve_fit(y, X_data, Y_data)
-        print("fiting curve : ", parameters)
-        x = np.linspace(0, 1, 100000)
-        y_fit = lambda x : parameters[0]*x**2 + parameters[1]*x + parameters[2]
-        plt(y_fit,x)
+        parameters_x , cov_x = scipy.optimize.curve_fit(x_fit, X_data, T_data)
+        parameters_y , cov_y = scipy.optimize.curve_fit(y_fit, Y_data, T_data)
+        x_curve = lambda t : parameters_x[0]*t + parameters_x[1]
+        y_curve = lambda t : parameters_y[0]*t + parameters_y[1]
+        for i in range(t_floor):
+            U[i] = x_curve(i)
+            V[i] = y_curve(i)
+        plt.plot(V,U)
     
     
     
@@ -62,6 +70,7 @@ def Animate():
 	global X0_Missile, Y0_Missile, VX0_Missile, VY0_Missile
 	global t
 	global Missile
+
 
 
 	iterations = 0      #Nbr of iterations
@@ -200,12 +209,17 @@ ax.add_patch(Rectangle((0.97*Width, 0), 0.03*Width, 0.03*Height,color="skyblue")
 Measurement = []
 X_data = []
 Y_data = []
+T_data = []
 
 #Stadard Deviation :
 standard_deviation = 1000
 
-#deffinition of the fiting curve
-y = lambda x, A, B, C : A*x**2 + B*x + C
+#deffinition of the fiting curves
+y_fit = lambda t, y0_fit, vy0_fit : y0_fit + vy0_fit*t + 0.5*g*t**2
+x_fit = lambda t, x0_fit, vx0_fit : x0_fit + vx0_fit*t
+
+#final value of t (when the missile hits the floor):
+t_floor = (VY0_Missile + np.sqrt(VY0_Missile**2 + 2*g*Y0_Missile)) / g
 
 #--------------------------------------------------------------------------------
 # Setting up the canvas 
