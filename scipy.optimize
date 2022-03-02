@@ -18,6 +18,7 @@ import scipy.optimize
 def _measure_position_():
     global t_floor #we compute the time the missile hits the floor
     t_floor = int((VY0_Missile + np.sqrt(VY0_Missile**2 + 2*g*Y0_Missile)) / g ) + 1
+    print(t_floor)
 
     global Measurement
     global X_data
@@ -47,12 +48,19 @@ def _measure_position_():
     if len(X_data) > 3:
         parameters_x , cov_x = scipy.optimize.curve_fit(x_fit, X_data, T_data)
         parameters_y , cov_y = scipy.optimize.curve_fit(y_fit, Y_data, T_data)
-        x_curve = lambda t : parameters_x[0]*t + parameters_x[1]
-        y_curve = lambda t : parameters_y[0]*t + parameters_y[1]
-        for i in range(t_floor):
-            U[i] = x_curve(i)
-            V[i] = y_curve(i)
-        plt.plot(V,U)
+        x_curve = lambda t : parameters_x[1]*t + parameters_x[0]
+        #y_curve = lambda t : parameters_y[1]*t + parameters_y[0] - 0.5*g*t**2
+        #U = []
+        #V = []
+        #for i in range(t_floor):
+            #U.append(x_curve(i))
+            #V.append(y_curve(i))
+        print("x0 =", -parameters_x[0]/parameters_x[1])
+        print("vx0 =", 1/parameters_x[1])
+        print("y0 =", parameters_y[0])
+        print("vy0 =", parameters_y[1]/200)
+        #plt.plot(U,color='red')
+        #plt.plot(V,color='blue')
     
     
     
@@ -84,7 +92,7 @@ def Animate():
 		X_Missile = VX0_Missile * t + X0_Missile
 		Y_Missile = VY0_Missile * t + Y0_Missile - g*0.5*t**2
 		
-		print(iterations, " ", X_Missile, " ", Y_Missile)
+		#print(iterations, " ", X_Missile, " ", Y_Missile)
 		# Update the coordinates of the missile
 		Missile.set_offsets(np.c_[X_Missile,Y_Missile])
 		
@@ -212,10 +220,10 @@ Y_data = []
 T_data = []
 
 #Stadard Deviation :
-standard_deviation = 1000
+standard_deviation = 100
 
 #deffinition of the fiting curves
-y_fit = lambda t, y0_fit, vy0_fit : y0_fit + vy0_fit*t + 0.5*g*t**2
+y_fit = lambda t, y0_fit, vy0_fit : y0_fit + vy0_fit*t - 0.5*g*t**2
 x_fit = lambda t, x0_fit, vx0_fit : x0_fit + vx0_fit*t
 
 #final value of t (when the missile hits the floor):
