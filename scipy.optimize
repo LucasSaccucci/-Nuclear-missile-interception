@@ -55,10 +55,10 @@ def _measure_position_():
         #for i in range(t_floor):
             #U.append(x_curve(i))
             #V.append(y_curve(i))
-        print("x0 =", -parameters_x[0]/parameters_x[1])
-        print("vx0 =", 1/parameters_x[1])
+        print("x0 =", parameters_x[0])
+        print("vx0 =", parameters_x[1])
         print("y0 =", parameters_y[0])
-        print("vy0 =", parameters_y[1]/200)
+        print("vy0 =", parameters_y[1])
         #plt.plot(U,color='red')
         #plt.plot(V,color='blue')
     
