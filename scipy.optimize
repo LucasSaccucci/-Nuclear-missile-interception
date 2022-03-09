@@ -48,10 +48,10 @@ def _measure_position_():
     if len(X_data) > 3:
         parameters_x , cov_x = scipy.optimize.curve_fit(x_fit, T_data, X_data)
         parameters_y , cov_y = scipy.optimize.curve_fit(y_fit, T_data, Y_data)
-	x0 = parameters_x[0] + parameters_x[1]
-	vx0 = parameters_x[1]
-	y0 = parameters_y[0] + parameters_y[1]
-	vy0 = parameters_y[1]
+        x0 = parameters_x[0] + parameters_x[1]
+        vx0 = parameters_x[1]
+        y0 = parameters_y[0] + parameters_y[1]
+        vy0 = parameters_y[1]
         #x_curve = lambda t : parameters_x[1]*t + parameters_x[0]
         #y_curve = lambda t : parameters_y[1]*t + parameters_y[0] - 0.5*g*t**2
         #U = []
