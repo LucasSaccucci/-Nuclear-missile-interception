@@ -18,12 +18,14 @@ import scipy.optimize
 def _measure_position_():
     global t_floor #we compute the time the missile hits the floor
     t_floor = int((VY0_Missile + np.sqrt(VY0_Missile**2 + 2*g*Y0_Missile)) / g ) + 1
-    print(t_floor)
 
     global Measurement
     global X_data
     global Y_data
     global T_data
+    
+    global x_impact, y_impact
+    
     X = random.gauss(X_Missile,standard_deviation)
     Y = random.gauss(Y_Missile,standard_deviation)
     Measurement.append([X,Y,t])
@@ -64,12 +66,26 @@ def _measure_position_():
         print("y0 =", y0)
         print("vy0 =", vy0)
         ax.plot(U, V, 'k,')
+        x_impact = x_curve(t_floor)
+        y_impact = y_curve(t_floor)
     
     
     
 def _launch_missile_():
-    """ Launch the counter-measure  
-    """
+    global x_impact
+    global y_impact
+    global X_Missile, Y_Missile, VX_Missile, VY_Missile
+    global X0_Missile, Y0_Missile, VX0_Missile, VY0_Missile
+    print(x_impact, y_impact)
+    ax.scatter( x_impact , y_impact , s = 10, color="red", marker ="^")
+    X_calculated_impact = X0_Missile + VX0_Missile*t_floor
+    Y_calculated_impact = Y0_Missile + VY0_Missile*t_floor - 0.5*g*t_floor**2
+    #ax.scatter( X_calculated_impact , Y_calculated_impact , s = 10, color="blue", marker ="^")
+    distance = np.sqrt((x_impact - X_calculated_impact)**2 + (y_impact - Y_calculated_impact)**2)
+    if distance < 1000:
+        print("Stopped Missile, by : ", distance)
+    else:
+        print("Missed Missile, by : ", distance)
     
     
 def Animate():
@@ -121,7 +137,6 @@ def _set_missile_():
 	global X0_Missile, Y0_Missile, VX0_Missile, VY0_Missile
 	global Missile
 	global Height, Width
-
 	# Get the values of the spinboxes
 	# The values are string by default, so we need to convert them
 	Spinbox_x0_value        = int(Spinbox_x0    .get())
@@ -232,6 +247,10 @@ x_fit = lambda t, x0_fit, vx0_fit : x0_fit + vx0_fit*t
 
 #final value of t (when the missile hits the floor):
 t_floor = (VY0_Missile + np.sqrt(VY0_Missile**2 + 2*g*Y0_Missile)) / g
+
+#We set the coordonates of the measured impacted point
+x_inpact = 0
+y_impact = 0
 
 #--------------------------------------------------------------------------------
 # Setting up the canvas 
