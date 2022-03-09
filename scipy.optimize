@@ -52,19 +52,18 @@ def _measure_position_():
         vx0 = parameters_x[1]
         y0 = parameters_y[0] + parameters_y[1]
         vy0 = parameters_y[1]
-        #x_curve = lambda t : parameters_x[1]*t + parameters_x[0]
-        #y_curve = lambda t : parameters_y[1]*t + parameters_y[0] - 0.5*g*t**2
-        #U = []
-        #V = []
-        #for i in range(t_floor):
-            #U.append(x_curve(i))
-            #V.append(y_curve(i))
+        x_curve = lambda t : vx0*t + x0
+        y_curve = lambda t : vy0*t + y0 - 0.5*g*t**2
+        U = []
+        V = []
+        for i in range(t_floor):
+            U.append(x_curve(i))
+            V.append(y_curve(i))
         print("x0 =", x0)
         print("vx0 =", vx0)
         print("y0 =", y0)
         print("vy0 =", vy0)
-        #plt.plot(U,color='red')
-        #plt.plot(V,color='blue')
+        ax.plot(U, V, 'k,')
     
     
     
@@ -224,7 +223,7 @@ Y_data = []
 T_data = []
 
 #Stadard Deviation :
-standard_deviation = 100
+standard_deviation = 1000
 
 #deffinition of the fiting curves
 y_fit = lambda t, y0_fit, vy0_fit : y0_fit + vy0_fit*t - 0.5*g*t**2
