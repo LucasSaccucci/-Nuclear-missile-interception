@@ -12,13 +12,46 @@ from matplotlib.patches import Rectangle
 
 import numpy as np
 
+import random
+import scipy.optimize
+
 def _measure_position_():
-    """ Measure the position of the track
-    """
+    global Measurement
+    global X_data
+    global Y_data
+    X = random.gauss(X_Missile,standard_deviation)
+    Y = random.gauss(Y_Missile,standard_deviation)
+    Measurement.append([X,Y,t])
+    X_data.append(X)
+    Y_data.append(Y)
+    # drawing of the measured points :
+
+    # cross of the error bars
+    ax.add_patch(Rectangle((X - 0.0002*Width, Y - standard_deviation), 0.0004*Width, 2*standard_deviation,color="black"))
+    ax.add_patch(Rectangle((X - standard_deviation, Y - 0.0002*Height), 2*standard_deviation, 0.0004*Height,color="black"))
+    # point
+    ax.add_patch(Rectangle((X - 0.005*Width, Y - 0.005*Width), 0.01*Width, 0.01*Height,color="blue"))
+    # X-axis error bars
+    ax.add_patch(Rectangle((X - 0.0002*Width + standard_deviation, Y - 0.005*Height), 0.0004*Width, 0.01*Height,color="black"))
+    ax.add_patch(Rectangle((X - 0.0002*Width - standard_deviation, Y - 0.005*Height), 0.0004*Width, 0.01*Height,color="black"))
+    # Y-axis errors bars
+    ax.add_patch(Rectangle((X - 0.005*Width, Y - 0.0002*Height  + standard_deviation), 0.01*Width, 0.0004*Height,color="black"))
+    ax.add_patch(Rectangle((X - 0.005*Width, Y - 0.0002*Height  - standard_deviation), 0.01*Width, 0.0004*Height,color="black"))
+    
+    #print(Measurement)
+    if len(X_data) > 3:
+        parameters , covaviance = scipy.optimize.curve_fit(y, X_data, Y_data)
+        print("fiting curve : ", parameters)
+        x = np.linspace(0, 1, 100000)
+        y_fit = lambda x : parameters[0]*x**2 + parameters[1]*x + parameters[2]
+        plt(y_fit,x)
+    
+    
     
 def _launch_missile_():
     """ Launch the counter-measure  
     """
+    
     
 def Animate():
 	"""
@@ -40,7 +73,7 @@ def Animate():
 		# slow down the animation : 0, 1/10 de seconde .. 
 		#time.sleep(0.0)
 		X_Missile = VX0_Missile * t + X0_Missile
-		Y_Missile = VY0_Missile * t + Y0_Missile
+		Y_Missile = VY0_Missile * t + Y0_Missile - g*0.5*t**2
 		
 		print(iterations, " ", X_Missile, " ", Y_Missile)
 		# Update the coordinates of the missile
@@ -57,6 +90,7 @@ def Animate():
 		
 	print (" Total number of iterations : ", iterations )
     
+
     
 def _set_missile_():
 	"""
@@ -117,6 +151,7 @@ def _set_missile_():
 #
 win1 = Tk()
 win1.title("My animation")
+g = 9.81
 
 
 Height  = 1e+5
@@ -158,6 +193,19 @@ Missile = ax.scatter( X_Missile , Y_Missile , s = SizeOfMissile, color="red", ma
 
 #Draw you
 ax.add_patch(Rectangle((0.97*Width, 0), 0.03*Width, 0.03*Height,color="skyblue"))
+
+
+
+#Set off of the Measurement list
+Measurement = []
+X_data = []
+Y_data = []
+
+#Stadard Deviation :
+standard_deviation = 1000
+
+#deffinition of the fiting curve
+y = lambda x, A, B, C : A*x**2 + B*x + C
 
 #--------------------------------------------------------------------------------
 # Setting up the canvas 
