@@ -1,0 +1,26 @@
+Hello,
+
+The file MissileInterceptionAnimation.py corresponds to the file that was given to us.
+The file scipy.optimize contain the ajustement program using the scipy.otimize.curve_fit() method.
+
+Instructions :
+- put values for the initials parameters of the missile (x0, y0, vx0, vy0)
+- press the "add missile" button to initiate a new projectile with thoses parameters
+- press the "Go" button to launch the animation
+- press the "Measure" button the do a measurement :
+  it will measure the position of the missile with a gaussian error
+    (by default there will be a standard deviation of 1000, but it can be change in the programme,
+    with the variable "standard_deviation" (after the comment "STAR" and just before the "Setting up of the canvas")
+    
+- after three measurment, the programme will start to fit the curve, and will draw the fitted curves
+- from that point, you will be able to press the "Launch" button in order to lauch the counter-measure
+  and see how far is the real missile impact point from it predicted one.
+  
+  if the distance is less than 1000 (can be change in the "_lanch_missile()" function), it will print :
+  "Stopped Missile, by : " and the distance (if d>1000 it will print "Missed missile")
+  
+- The button "Stop" will stop the annimation while the button "Exit" will close the window
+
+
+NB : I think there is a checkbutton to uncheck in order to make the animation work,
+but I don't exactly remember how it work and can't verifie it
