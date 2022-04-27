@@ -23,9 +23,12 @@ def _measure_position_():
     global X_data
     global Y_data
     global T_data
-    
     global x_impact, y_impact
-    
+    distance = np.sqrt((X_Missile - Width)**2 + (Y_Missile)**2)
+    print(distance)
+    standard_deviation = 0.03*distance  #alternative to the constant standard_deviation
+                                    #it decrease when the missile is closer to the lower right angle of the field
+                                    #(comment this line if you want to use th constant one)
     X = random.gauss(X_Missile,standard_deviation)
     Y = random.gauss(Y_Missile,standard_deviation)
     Measurement.append([X,Y,t])
@@ -61,10 +64,7 @@ def _measure_position_():
         for i in range(t_floor):
             U.append(x_curve(i))
             V.append(y_curve(i))
-        print("x0 =", x0)
-        print("vx0 =", vx0)
-        print("y0 =", y0)
-        print("vy0 =", vy0)
+        print("x0 =", x0,"vx0 =", vx0,"y0 =", y0,"vy0 =", vy0)
         ax.plot(U, V, 'k,')
         x_impact = x_curve(t_floor)
         y_impact = y_curve(t_floor)
