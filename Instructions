@@ -9,7 +9,8 @@ Instructions :
 - press the "Go" button to launch the animation
 - press the "Measure" button the do a measurement :
   it will measure the position of the missile with a gaussian error
-    (by default there will be a standard deviation of 1000, but it can be change in the programme,
+    (by default there will be a standard deviation of 20% of the distance to the lower left corner,
+    but it can be change in the programme at the beginnig of the "_measure_position_()" function
     with the variable "standard_deviation" (after the comment "STAR" and just before the "Setting up of the canvas")
     
 - after three measurment, the programme will start to fit the curve, and will draw the fitted curves and print the fitted parameters
